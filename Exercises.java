@@ -1,22 +1,40 @@
 public class Exercises {
-	public static void main(String[] args) {
-		// Exercises.invoke("lab13_1", 9180, 937829, 913803, 212801);
+	public static void main(String[] args) {}
+	
+	public static int[][] lab12_1(int[][] _mat, int _shift) {
+		_shift %= _mat.length;
 		
-		// lab13_1
-		int lab13_1 = lab13_1(937829, 913803, 212801);
-		System.out.println("lab13_1: " + lab13_1);
+		int[][] nmat = new int[_mat.length][_mat[0].length];
+		for (int i=0; i<_mat.length; i++) {
+			if (i+_shift >= _mat.length) _shift -= _mat.length;
+			else if (i+_shift < 0) _shift += _mat.length;
+			
+			System.arraycopy(_mat[i], 0, nmat[i+_shift], 0, _mat[0].length);
+		}
 		
-		// lab13_2
-		int[][] mat = {{1,2,3},{4,5,6},{7,8,9}};
-		int[][] mod = {{1,0,2},{0,2,1}};
-		mat = Exercises.lab13_2(mat, mod);
+		return nmat;
+	}
+	
+	// fuck the recursive part, there's no way i'm doing that
+	public static int lab12_2(char[] _arr, char _char) {
+		int max=0, i=0;
 		
-		System.out.println("lab13_2: ");
-		for (int i=0; i<mat.length; i++) {
-			for (int j=0; j<mat[0].length; j++)
-				System.out.print(mat[i][j] + " ");
-			System.out.print("\n");
-		}System.out.print("\n");
+		while (i<_arr.length) {
+			if (_arr[i++] == _char) {
+				int c = lab12_2_count(_arr, i, _char);
+				max=(c>max)?c:max;
+				i+=c;
+			}
+		}
+		
+		return max;
+	}
+	
+	public static int lab12_2_count(char[] _arr, int _iarr, char _char) {
+		int c=1;
+		while (_iarr < _arr.length && _arr[_iarr++] == _char) c++;
+		
+		return c;
 	}
 	
 	public static int lab13_1(int n1, int n2, int n3) {
